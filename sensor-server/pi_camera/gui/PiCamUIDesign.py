@@ -2,8 +2,7 @@
 
 # Form implementation generated from reading ui file 'PiCamUIDesign.ui'
 #
-# Created: Wed Feb 28 13:12:16 2018
-#      by: PyQt4 UI code generator 4.11.2
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -73,7 +72,7 @@ class Ui_MainWindow(object):
         self.videoPathLineEdit.setGeometry(QtCore.QRect(140, 80, 321, 27))
         self.videoPathLineEdit.setObjectName(_fromUtf8("videoPathLineEdit"))
         self.videoPushButton = QtGui.QPushButton(self.VideoTab)
-        self.videoPushButton.setGeometry(QtCore.QRect(320, 200, 121, 27))
+        self.videoPushButton.setGeometry(QtCore.QRect(330, 120, 121, 27))
         self.videoPushButton.setObjectName(_fromUtf8("videoPushButton"))
         self.label_7 = QtGui.QLabel(self.VideoTab)
         self.label_7.setGeometry(QtCore.QRect(10, 190, 181, 17))
@@ -92,6 +91,9 @@ class Ui_MainWindow(object):
         self.videoSecondsLineEdit.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.videoSecondsLineEdit.setReadOnly(True)
         self.videoSecondsLineEdit.setObjectName(_fromUtf8("videoSecondsLineEdit"))
+        self.cancelVideoPushButton = QtGui.QPushButton(self.VideoTab)
+        self.cancelVideoPushButton.setGeometry(QtCore.QRect(330, 190, 121, 27))
+        self.cancelVideoPushButton.setObjectName(_fromUtf8("cancelVideoPushButton"))
         self.tabWidget.addTab(self.VideoTab, _fromUtf8(""))
         self.TimelapseTab = QtGui.QWidget()
         self.TimelapseTab.setObjectName(_fromUtf8("TimelapseTab"))
@@ -114,7 +116,7 @@ class Ui_MainWindow(object):
         self.label_11.setGeometry(QtCore.QRect(10, 120, 211, 17))
         self.label_11.setObjectName(_fromUtf8("label_11"))
         self.timelapseFramesSpinBox = QtGui.QSpinBox(self.TimelapseTab)
-        self.timelapseFramesSpinBox.setGeometry(QtCore.QRect(240, 120, 91, 27))
+        self.timelapseFramesSpinBox.setGeometry(QtCore.QRect(220, 120, 91, 27))
         self.timelapseFramesSpinBox.setMinimum(1)
         self.timelapseFramesSpinBox.setMaximum(100000)
         self.timelapseFramesSpinBox.setProperty("value", 10)
@@ -123,7 +125,7 @@ class Ui_MainWindow(object):
         self.label_12.setGeometry(QtCore.QRect(10, 160, 181, 17))
         self.label_12.setObjectName(_fromUtf8("label_12"))
         self.timelapseDelaySpinBox = QtGui.QSpinBox(self.TimelapseTab)
-        self.timelapseDelaySpinBox.setGeometry(QtCore.QRect(240, 160, 91, 27))
+        self.timelapseDelaySpinBox.setGeometry(QtCore.QRect(220, 160, 91, 27))
         self.timelapseDelaySpinBox.setMaximum(1000)
         self.timelapseDelaySpinBox.setProperty("value", 60)
         self.timelapseDelaySpinBox.setObjectName(_fromUtf8("timelapseDelaySpinBox"))
@@ -131,13 +133,16 @@ class Ui_MainWindow(object):
         self.label_13.setGeometry(QtCore.QRect(10, 200, 121, 17))
         self.label_13.setObjectName(_fromUtf8("label_13"))
         self.timelapsePushButton = QtGui.QPushButton(self.TimelapseTab)
-        self.timelapsePushButton.setGeometry(QtCore.QRect(300, 210, 151, 27))
+        self.timelapsePushButton.setGeometry(QtCore.QRect(330, 140, 131, 27))
         self.timelapsePushButton.setObjectName(_fromUtf8("timelapsePushButton"))
         self.timelapseFramesLineEdit = QtGui.QLineEdit(self.TimelapseTab)
         self.timelapseFramesLineEdit.setGeometry(QtCore.QRect(140, 200, 101, 33))
         self.timelapseFramesLineEdit.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.timelapseFramesLineEdit.setReadOnly(True)
         self.timelapseFramesLineEdit.setObjectName(_fromUtf8("timelapseFramesLineEdit"))
+        self.cancelTimelapsePushButton = QtGui.QPushButton(self.TimelapseTab)
+        self.cancelTimelapsePushButton.setGeometry(QtCore.QRect(330, 200, 131, 27))
+        self.cancelTimelapsePushButton.setObjectName(_fromUtf8("cancelTimelapsePushButton"))
         self.tabWidget.addTab(self.TimelapseTab, _fromUtf8(""))
         self.label = QtGui.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 350, 141, 16))
@@ -195,6 +200,7 @@ class Ui_MainWindow(object):
         self.videoPushButton.setText(_translate("MainWindow", "Capture Video", None))
         self.label_7.setText(_translate("MainWindow", "Video Seconds Captured", None))
         self.label_10.setText(_translate("MainWindow", "Video Length (in Seconds)", None))
+        self.cancelVideoPushButton.setText(_translate("MainWindow", "Cancel Video", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.VideoTab), _translate("MainWindow", "Capture Video", None))
         self.label_8.setText(_translate("MainWindow", "Image Size", None))
         self.timelapseCheckBox.setText(_translate("MainWindow", "Flip Images", None))
@@ -203,6 +209,7 @@ class Ui_MainWindow(object):
         self.label_12.setText(_translate("MainWindow", "Seconds Between Frames", None))
         self.label_13.setText(_translate("MainWindow", "Frames Captured", None))
         self.timelapsePushButton.setText(_translate("MainWindow", "Start Timelapse", None))
+        self.cancelTimelapsePushButton.setText(_translate("MainWindow", "Cancel TImelapse", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.TimelapseTab), _translate("MainWindow", "Capture Timelapse", None))
         self.label.setText(_translate("MainWindow", "Camera IP Address", None))
         self.label_2.setText(_translate("MainWindow", "Camera Status", None))

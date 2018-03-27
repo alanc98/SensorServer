@@ -99,7 +99,9 @@ class PiCamUIApp(QtGui.QMainWindow, PiCamUIDesign.Ui_MainWindow):
       # Connect buttons
       self.imagePushButton.clicked.connect(self.send_capture_image_message) 
       self.videoPushButton.clicked.connect(self.send_capture_video_message) 
+      self.cancelVideoPushButton.clicked.connect(self.send_cancel_video_message)
       self.timelapsePushButton.clicked.connect(self.send_capture_timelapse_message) 
+      self.cancelTimelapsePushButton.clicked.connect(self.send_cancel_timelapse_message) 
       self.ConnectPushButton.clicked.connect(self.connect_to_ports) 
       self.connected = False
 
@@ -200,6 +202,10 @@ class PiCamUIApp(QtGui.QMainWindow, PiCamUIDesign.Ui_MainWindow):
       self.cameraStatusLineEdit.setText("BUSY")
       self.send_camera_sensor_req(sensor_req_message)
 
+   def send_cancel_video_message(self):
+      sensor_req_message = 'SENSOR_REQ,DEV=PI_CAMERA,SUB_DEV=VIDEO,CMD=CANCEL,SENSOR_REQ_END'
+      self.cameraStatusLineEdit.setText("IDLE")
+      self.send_camera_sensor_req(sensor_req_message)
  
    def send_capture_timelapse_message(self):
       image_size_text = self.timelapseSizeComboBox.currentText()
@@ -218,6 +224,11 @@ class PiCamUIApp(QtGui.QMainWindow, PiCamUIDesign.Ui_MainWindow):
       frame_delay_text = str(self.timelapseDelaySpinBox.value())
       sensor_req_message = 'SENSOR_REQ,DEV=PI_CAMERA,SUB_DEV=TIMELAPSE,CMD=CAPTURE,SIZE=' + message_size_text + ',VFLIP=' + flip_text + ',FILE_PRE=' + image_file_prefix + ',DELAY=' + frame_delay_text + ',FRAMES=' + num_frames_text + ',SENSOR_REQ_END'
       self.cameraStatusLineEdit.setText("BUSY")
+      self.send_camera_sensor_req(sensor_req_message)
+
+   def send_cancel_timelapse_message(self):
+      sensor_req_message = 'SENSOR_REQ,DEV=PI_CAMERA,SUB_DEV=TIMELAPSE,CMD=CANCEL,SENSOR_REQ_END'
+      self.cameraStatusLineEdit.setText("IDLE")
       self.send_camera_sensor_req(sensor_req_message)
 
 def init_globals():

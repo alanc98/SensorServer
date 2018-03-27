@@ -95,6 +95,7 @@ def process_still_req(message):
 #
 def capture_video(image_size, vflip, file, duration):
    global camera_busy 
+   global camera_abort 
    camera = PiCamera()
 
    print('capture_video -- file is', file)
@@ -115,12 +116,16 @@ def capture_video(image_size, vflip, file, duration):
       video_status_string = 'SENSOR_PUB,DEV=PI_CAMERA,SUB_DEV=VIDEO,VIDEO_SECOND=' + str(i) + ',SENSOR_PUB_END'
       pub_socket.send_string(video_status_string)
       camera.wait_recording(1)
+      if camera_abort == True:
+         break
+
    video_status_string = 'SENSOR_PUB,DEV=PI_CAMERA,SUB_DEV=VIDEO,VIDEO_SECOND=DONE,SENSOR_PUB_END'
    pub_socket.send_string(video_status_string)
 
    camera.stop_recording()
    camera.close()
    camera_busy = False 
+   camera_abort = False
    return 
 
 #
@@ -130,49 +135,60 @@ def capture_video(image_size, vflip, file, duration):
 #
 def process_video_req(message):
    global camera_busy 
+   global camera_abort 
 
-   if camera_busy == True:
-      message = "SENSOR_REP,DEV=PI_CAMERA,SUB_DEV=VIDEO,STATUS=ERROR_BUSY,SENSOR_REP_END"
-      return message
-   else:
-      cam_message_list = message.split(',')
-      print(cam_message_list)
+   cam_message_list = message.split(',')
+   print(cam_message_list)
 
-      size_list = cam_message_list[4].split('=')
-      print(size_list)
+   cmd_list = cam_message_list[3].split('=')
+   print(cmd_list)
 
-      vflip_list = cam_message_list[5].split('=')
-      print(vflip_list)
-
-      duration_list = cam_message_list[6].split('=')
-      print(duration_list)
-
-      file_list = cam_message_list[7].split('=')
-      print(file_list)
-
-      # Gather and convert parameters
-      if size_list[1] == '1':
-         ImageSize = 1
-      elif size_list[1] == '2':
-         ImageSize = 2
-      else:
-         ImageSize = 3
-
-      if vflip_list[1] == 'TRUE':
-         Vflip = True
-      else:
-         Vflip = False
-
-      print (duration_list[1])
-      Duration = int(duration_list[1]) 
-
-      # Create thread to capture the video
-      video_thread = threading.Thread(target=capture_video, args=(ImageSize, Vflip, file_list[1], Duration))
-      video_thread.start()
-      camera_busy = True 
-
+   if cmd_list[1] == 'CANCEL':
+      if camera_busy == True:
+         camera_abort = True
+      print('Processed cancel video capture')
       message = "SENSOR_REP,DEV=PI_CAMERA,SUB_DEV=VIDEO,STATUS=OK,SENSOR_REP_END"
       return message
+   else:
+      if camera_busy == True:
+         message = "SENSOR_REP,DEV=PI_CAMERA,SUB_DEV=VIDEO,STATUS=ERROR_BUSY,SENSOR_REP_END"
+         return message
+      else:
+         size_list = cam_message_list[4].split('=')
+         print(size_list)
+
+         vflip_list = cam_message_list[5].split('=')
+         print(vflip_list)
+
+         duration_list = cam_message_list[6].split('=')
+         print(duration_list)
+
+         file_list = cam_message_list[7].split('=')
+         print(file_list)
+
+         # Gather and convert parameters
+         if size_list[1] == '1':
+            ImageSize = 1
+         elif size_list[1] == '2':
+            ImageSize = 2
+         else:
+            ImageSize = 3
+
+         if vflip_list[1] == 'TRUE':
+            Vflip = True
+         else:
+            Vflip = False
+
+         print (duration_list[1])
+         Duration = int(duration_list[1]) 
+
+         # Create thread to capture the video
+         video_thread = threading.Thread(target=capture_video, args=(ImageSize, Vflip, file_list[1], Duration))
+         video_thread.start()
+         camera_busy = True 
+
+         message = "SENSOR_REP,DEV=PI_CAMERA,SUB_DEV=VIDEO,STATUS=OK,SENSOR_REP_END"
+         return message
 
 #
 # Capture a Timelapse ( worker thread )
@@ -183,6 +199,7 @@ def process_video_req(message):
 #
 def capture_timelapse(image_size, vflip, file_prefix, delay, frames):
    global camera_busy 
+   global camera_abort 
    camera = PiCamera()
 
    print('capture_timelapse -- file prefix is', file_prefix)
@@ -199,6 +216,8 @@ def capture_timelapse(image_size, vflip, file_prefix, delay, frames):
       camera.hflip = True
 
    for i in range(frames):
+      if camera_abort == True:
+         break 
       filename = file_prefix + '%04d.jpg' % i
       print('Capturing file %s' % filename)
       camera.capture(filename)
@@ -211,6 +230,7 @@ def capture_timelapse(image_size, vflip, file_prefix, delay, frames):
 
    camera.close()
    camera_busy = False 
+   camera_abort = False
    return 
 
 #
@@ -227,12 +247,25 @@ def capture_timelapse(image_size, vflip, file_prefix, delay, frames):
 #
 def process_timelapse_req(message):
    global camera_busy 
-   if camera_busy == True:
+   global camera_abort 
+
+   cam_message_list = message.split(',')
+   print(cam_message_list)
+
+   cmd_list = cam_message_list[3].split('=')
+   print(cmd_list)
+
+   if cmd_list[1] == 'CANCEL':
+      if camera_busy == True:
+         camera_abort = True
+      print('Processed cancel timelapse')
+      message = "SENSOR_REP,DEV=PI_CAMERA,SUB_DEV=TIMELAPSE,STATUS=OK,SENSOR_REP_END"
+      return message
+
+   elif camera_busy == True:
       message = "SENSOR_REP,DEV=PI_CAMERA,SUB_DEV=TIMELAPSE,STATUS=ERROR_BUSY,SENSOR_REP_END"
       return message
    else:
-      cam_message_list = message.split(',')
-      print(cam_message_list)
 
       size_list = cam_message_list[4].split('=')
       print(size_list)

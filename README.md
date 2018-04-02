@@ -20,13 +20,17 @@ The servers currently are for:
 # Message Formats
 See the individual server directories for details on the message formats that are accepted and returned. Here is a simple example:
 Request a picture from the Pi Camera server
+'''
 SENSOR_REQ,DEV=PI_CAMERA,SUB_DEV=STILL,CMD=CAPTURE,SIZE=1,VFLIP=TRUE,FILE=test1.jpg,SENSOR_REQ_END
+'''
 
 Reply from camera
+'''
 SENSOR_REP,DEV=PI_CAMERA,SUB_DEV=STILL,STATUS=OK|ERROR,SENSOR_REP_END
+'''
 
 # Installation
-In order to use this on a Raspberry Pi, you need to install the following:
+In order to use this on a Raspberry Pi or other computer, you need to install the following:
 - The sensor/device support python modules. In the case of the Pi Camera, everything seems to be installed in the latest Raspbian distribution. For the Enviro pHat server, you need to install the python module from Pimoroni. 
 - Python ZeroMQ support ( sudo apt install python-zmq )
 

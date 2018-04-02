@@ -2,7 +2,10 @@
 
 Python ZeroMQ sensor server for Raspberry Pi and other IOT devices
 
-Each device has it's own ZeroMQ REQ/REP server written in Python. Each server accepts text commands to supply data, and it returns the sensor data with similar text messages. 
+Each device has it's own ZeroMQ REQ/REP (REQ = Request, REP = Reply) server written in Python. Each server accepts text commands to do something like take a picture or read sensor data, and it returns either the sensor data or just a reply that the command was accepted.  
+
+Read more about ZeroMQ here:
+http://zeromq.org/
 
 # Servers provided
 The servers currently are for:

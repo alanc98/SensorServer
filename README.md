@@ -1,5 +1,7 @@
 # SensorServer
 
+**Note: I consider this code "deprecated". Most of the functionality of this code is available by using MQTT which is a well supported standard.**
+
 Python ZeroMQ sensor server for Raspberry Pi and other IOT devices
 
 Each device has it's own ZeroMQ REQ/REP (REQ = Request, REP = Reply) server written in Python. Each server accepts text commands to do something like take a picture or read sensor data, and it returns either the sensor data or just a reply that the command was accepted.  
